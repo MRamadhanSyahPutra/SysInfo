@@ -17,7 +17,12 @@ const CardC = () => {
         ],
         title: ["Users", "Jurusan", "Prodi", "Matakuliah"],
         subTitle: ["Dosen & Mahasiswa", "TI, M&B, TE,& TM", "All", "All"],
-        href: ["#users", "#jurusan", "#prodi", "#matakuliah"],
+        href: [
+            "dashboard/users",
+            "dashboard/jurusans",
+            "dashboard/prodis",
+            "#matakuliah",
+        ],
         svg: [
             <svg
                 xmlns="http://www.w3.org/2000/svg"

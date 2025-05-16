@@ -233,7 +233,11 @@ class AdminController extends Controller
     public function MahasiswaUpdate(Request $request, $mahasiswa_id)
     {
         try {
-            $mahasiswa = Mahasiswa::findOrFail($mahasiswa_id);
+            $mahasiswa = Mahasiswa::find($mahasiswa_id);
+
+            if (!$mahasiswa) {
+                return redirect()->back()->with('message', 'Data tidak terisi!');
+            }
 
             $request->validate(
                 [
@@ -431,7 +435,11 @@ class AdminController extends Controller
     {
         try {
 
-            $dosen = Dosen::with('prodi')->findOrFail($dosen_id);
+            $dosen = Dosen::with('prodi')->find($dosen_id);
+
+            if (!$dosen) {
+                return redirect()->back()->with('message', 'Data tidak terisi!');
+            }
 
             $request->validate(
                 [

@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\ProdiController;
 
 //Welcome
 Route::prefix('/')->group(function () {
@@ -67,6 +69,30 @@ Route::prefix('admin')->group(function () {
                     Route::get('{dosen}/edit', 'EditDosen')->name('dosen.edit');
                     Route::put('{dosen}', 'DosenUpdate')->name('dosen.update');
                     Route::delete('{dosen}', 'DosenDelete')->name('dosen.delete');
+                });
+            });
+
+            //Jurusan
+            Route::controller(JurusanController::class)->group(function () {
+                Route::prefix('jurusans')->group(function () {
+                    Route::get('/', 'Jurusans')->name('jurusan');
+                    Route::get('create', 'CreateJurusan')->name('createjurusan');
+                    Route::post('/', 'JurusanPost')->name('jurusanpost');
+                    Route::get('{jurusan}/edit', 'EditJurusan')->name('jurusan.edit');
+                    Route::put('{jurusan}', 'UpdateJurusan')->name('jurusan.update');
+                    Route::delete('{jurusan}', 'JurusanDelete')->name('jurusan.delete');
+                });
+            });
+
+            // Prodi
+            Route::controller(ProdiController::class)->group(function () {
+                Route::prefix('prodis')->group(function () {
+                    Route::get('/', 'Prodis')->name('prodi');
+                    Route::get('create', 'CreateProdi')->name('createprodi');
+                    Route::post('/', 'ProdiPost')->name('prodipost');
+                    Route::get('{prodi}/edit', 'ProdiEdit')->name('prodi.edit');
+                    Route::put('{prodi}', 'UpdateProdi')->name('prodi.update');
+                    Route::delete('{prodi}', 'ProdiDelete')->name('prodi.delete');
                 });
             });
         });
