@@ -22,7 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth.multi' => \App\Http\Middleware\MultiAuth::class,
             'guest.mhs' => \App\Http\Middleware\guestMhsAuth::class,
             'auth.mhs' => \App\Http\Middleware\MhsAuth::class,
-            'admin.policy' => \App\Http\Middleware\DosenPolicyRoute::class,
+            'admin.policy' => \App\Http\Middleware\AdminPolicyRoute::class,
+            'dosen.policy' => \App\Http\Middleware\DosenPolicyRoute::class,
+            'dosen.verify' => \App\Http\Middleware\VerifyDosen::class,
         ]);
 
     })

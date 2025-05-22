@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class DosenPolicyRoute
+class VerifyDosen
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,15 @@ class DosenPolicyRoute
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('dosen')->user()) {
-            return $next($request);
+        $routeDosen = $request->route('dosen');
+        $request_id = is_object($routeDosen) ? $routeDosen->id : $routeDosen;
+
+        $dosen_id = Auth::guard('dosen')->id();
+
+        if (!$dosen_id || $request_id != $dosen_id) {
+            return abort(403, 'Unauthorized');
         }
 
-        return abort(403);
+        return $next($request);
     }
 }

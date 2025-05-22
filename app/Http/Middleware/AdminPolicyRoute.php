@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class DosenPolicyRoute
+class AdminPolicyRoute
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class DosenPolicyRoute
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('dosen')->user()) {
+        if (Auth::guard('admin')->user()) {
             return $next($request);
         }
 

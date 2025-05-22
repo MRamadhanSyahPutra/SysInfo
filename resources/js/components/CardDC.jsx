@@ -1,9 +1,11 @@
 import ApexCharts from "apexcharts";
 import { useEffect, useRef, useLayoutEffect, useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { route } from "Ziggy-js";
 
 const CardDC = ({ prodi }) => {
     const chartRef = useRef(null);
+    const svgRef = useRef(null);
 
     const TI = prodi.filter((item) => item.jurusan_id === 1);
     const MdB = prodi.filter((item) => item.jurusan_id === 2);
@@ -76,6 +78,20 @@ const CardDC = ({ prodi }) => {
         }
     }, []);
 
+    useEffect(() => {
+        import("flowbite").then(({ Popover }) => {
+            const targetEl = document.getElementById("chart-info");
+            const triggerEl = svgRef.current;
+
+            if (targetEl && triggerEl) {
+                new Popover(targetEl, triggerEl, {
+                    placement: "bottom",
+                    triggerType: "click",
+                });
+            }
+        });
+    }, []);
+
     return (
         <>
             <div className="w-full bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4 md:p-6">
@@ -86,6 +102,7 @@ const CardDC = ({ prodi }) => {
                                 Prodi
                             </h5>
                             <svg
+                                ref={svgRef}
                                 data-popover-target="chart-info"
                                 data-popover-placement="bottom"
                                 className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1"
@@ -140,7 +157,7 @@ const CardDC = ({ prodi }) => {
                                         </li>
                                     </ul>
                                     <a
-                                        href="#"
+                                        href={route("prodi")}
                                         className="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline"
                                     >
                                         Read more{" "}
@@ -242,10 +259,10 @@ const CardDC = ({ prodi }) => {
                         {/* Menu-drop-down-day */}
                         {/* End-menu-drop-down-day */}
                         <a
-                            href="#"
+                            href={route("prodi")}
                             className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
                         >
-                            Traffic analysis
+                            Prodi Report
                             <svg
                                 className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180"
                                 aria-hidden="true"

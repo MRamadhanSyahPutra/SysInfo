@@ -8,8 +8,6 @@ const UsersIndex = () => {
 
     const user = dosen || admin || "user not found";
 
-    console.log(auth);
-
     return (
         <>
             <Sidebar flash={flash} status={user}>

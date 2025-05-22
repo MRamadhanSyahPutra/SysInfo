@@ -239,7 +239,11 @@ const Navbar = ({ activePage, auth }) => {
                                 <span className="sr-only">Open user menu</span>
                                 <img
                                     className="w-8 h-8 rounded-full"
-                                    src="/images/boy.png"
+                                    src={`${
+                                        auth.mhs.jenis_kelamin === "pria"
+                                            ? "/images/boy.png"
+                                            : "/images/woman.png"
+                                    }`}
                                     alt="user photo"
                                 />
                             </button>

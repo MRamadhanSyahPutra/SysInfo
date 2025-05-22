@@ -25,16 +25,16 @@ const Dashboard = () => {
     return (
         <>
             <Sidebar flash={flash} status={user}>
-                <div className="grid grid-cols-2 grid-rows-2 sm:grid-rows-2 md:grid-rows-1  xl:grid-cols-8 xl:grid-rows-12 gap-5 mt-[65px] bg-red-200">
+                <div className="grid grid-cols-2 grid-rows-2 sm:grid-rows-2 md:grid-rows-1  xl:grid-cols-8 xl:grid-rows-12 gap-5 mt-[65px]">
                     {/* Card-component-header */}
                     <CardC />
                     {/* End-card-component-header */}
-                    <div className=" col-span-7 md:col-span-2 lg:col-span-1 xl:col-span-6 xl:row-span-10 xl:row-start-3 bg-green-300">
+                    <div className=" col-span-7 md:col-span-2 lg:col-span-1 xl:col-span-6 xl:row-span-10 xl:row-start-3">
                         {/* Content-diagram */}
                         <CardDB kelas={kelas} />
                         {/* End-content-diagram */}
                     </div>
-                    <div className=" col-span-7 md:col-span-2 lg:col-span-1 xl:col-span-2 xl:row-span-10 xl:col-start-7 xl:row-start-3 bg-gray-200">
+                    <div className=" col-span-7 md:col-span-2 lg:col-span-1 xl:col-span-2 xl:row-span-10 xl:col-start-7 xl:row-start-3">
                         {/* Content-diagram */}
                         <CardDC prodi={prodi} />
                         {/* End-content-diagram */}

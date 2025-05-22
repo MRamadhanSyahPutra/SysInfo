@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\KelasController;
+use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\MahasiswaController;
-use App\Http\Controllers\ProdiController;
 
 //Welcome
 Route::prefix('/')->group(function () {
@@ -93,6 +94,28 @@ Route::prefix('admin')->group(function () {
                     Route::get('{prodi}/edit', 'ProdiEdit')->name('prodi.edit');
                     Route::put('{prodi}', 'UpdateProdi')->name('prodi.update');
                     Route::delete('{prodi}', 'ProdiDelete')->name('prodi.delete');
+                });
+            });
+
+            // Class
+            Route::controller(KelasController::class)->group(function () {
+                Route::prefix('class')->group(function () {
+                    Route::get('/', 'Index')->name('class');
+
+                    Route::prefix('dosen')->middleware('dosen.policy')->group(function () {
+                        Route::get('/{dosen}', 'IndexDosen')->middleware('dosen.verify')->name('class.dosen');
+                        Route::get('{dosen}/create', 'CreateClassToDosen')->name('createclassto.dosen');
+                        Route::post('{dosen}/create/post', 'ClassToDosenPost')->name('createtodosen.post');
+                    });
+
+                    Route::prefix('admin')->group(function () {
+                        Route::get('/', 'IndexAdmin')->name('class.admin');
+                        Route::get('create', 'CreateKelas')->name('createkelas.admin');
+                        Route::post('/', 'ClassPost')->name('classpost.admin');
+                        Route::get('{kelas}/edit', 'ClassEdit')->name('classedit.admin');
+                        Route::put('{kelas}', 'ClassUpdate')->name('classupdate.admin');
+                        Route::delete('{kelas}', 'ClassDelete')->name('classdelete.admin');
+                    });
                 });
             });
         });

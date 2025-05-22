@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ApexCharts from "apexcharts";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { route } from "Ziggy-js";
 
 const CardDB = ({ kelas }) => {
     // Amount
@@ -252,10 +253,10 @@ const CardDB = ({ kelas }) => {
                     {" "}
                     {/* Menu-drop-down-day */}
                     <a
-                        href="#"
+                        href={route("class")}
                         className="uppercase mt-5 text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
                     >
-                        Leads Report
+                        Class Report
                         <svg
                             className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180"
                             aria-hidden="true"

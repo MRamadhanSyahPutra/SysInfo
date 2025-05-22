@@ -15,7 +15,7 @@ class Kelas extends Model
         [
             'name',
             'jenis_kelas',
-            'daya_tampung',
+            'data_tampung',
             'prodi_id',
             'dosen_id',
         ];
