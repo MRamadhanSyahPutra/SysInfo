@@ -31,7 +31,12 @@ class KelasController extends Controller
             $search = '%' . $request->search . '%';
             $query->where('name', 'like', $search)
                 ->orWhere('jenis_kelas', 'like', $search)
-                ->orWhere('data_tampung', 'like', $search);
+                ->orWhere('data_tampung', 'like', $search)
+                ->orWhereHas('prodi', function ($q) use ($search) {
+                    $q->where('name', 'like', $search);
+                })
+                ->orWhereHas('dosen', function ($q) use ($search) {
+                    $q->where('name', 'like', $search); });
         })->paginate(5);
 
         return inertia('Admin/Class/Admin/Index', [

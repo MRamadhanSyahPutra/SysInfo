@@ -21,7 +21,7 @@ const CardC = () => {
             "dashboard/users",
             "dashboard/jurusans",
             "dashboard/prodis",
-            "#matakuliah",
+            "dashboard/matakuliahs",
         ],
         svg: [
             <svg

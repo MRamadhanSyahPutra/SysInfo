@@ -330,7 +330,10 @@ class AdminController extends Controller
                     ->orWhere('email', 'like', $search)
                     ->orWhere('nid', 'like', $search)
                     ->orWhere('alamat', 'like', $search)
-                    ->orWhere('no_telp', 'like', $search);
+                    ->orWhere('no_telp', 'like', $search)
+                    ->orWhereHas('prodi', function ($q) use ($search) {
+                        $q->where('name', 'like', $search);
+                    });
             }
         )->paginate(5);
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\KelasController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\MatakuliahController;
 
 //Welcome
 Route::prefix('/')->group(function () {
@@ -102,8 +103,8 @@ Route::prefix('admin')->group(function () {
                 Route::prefix('class')->group(function () {
                     Route::get('/', 'Index')->name('class');
 
-                    Route::prefix('dosen')->middleware('dosen.policy')->group(function () {
-                        Route::get('/{dosen}', 'IndexDosen')->middleware('dosen.verify')->name('class.dosen');
+                    Route::prefix('dosen')->middleware(['dosen.policy', 'dosen.verify'])->group(function () {
+                        Route::get('/{dosen}', 'IndexDosen')->name('class.dosen');
                         Route::get('{dosen}/create', 'CreateClassToDosen')->name('createclassto.dosen');
                         Route::post('{dosen}/create/post', 'ClassToDosenPost')->name('createtodosen.post');
                     });
@@ -115,6 +116,51 @@ Route::prefix('admin')->group(function () {
                         Route::get('{kelas}/edit', 'ClassEdit')->name('classedit.admin');
                         Route::put('{kelas}', 'ClassUpdate')->name('classupdate.admin');
                         Route::delete('{kelas}', 'ClassDelete')->name('classdelete.admin');
+                    });
+                });
+            });
+
+            //Matakuliah
+            Route::controller(MatakuliahController::class)->group(function () {
+                Route::prefix('matakuliahs')->group(function () {
+                    Route::get('/', 'Index')->name('matakuliahs');
+
+                    //Matakuliahs
+                    Route::prefix('matakuliah')->group(function () {
+                        Route::get('/', 'MatakuliahIndex')->name('matakuliah');
+                        Route::get('create', 'CreateMatakuliah')->name('create.matakuliah');
+                        Route::post('/', 'MatakuliahPost')->name('post.matakuliah');
+                        Route::get('{matakuliah}/edit', 'EditMatakuliah')->name('edit.matakuliah');
+                        Route::put('{matakuliah}', 'UpdateMatakuliah')->name('update.matakuliah');
+                        Route::delete('{matakuliah}', 'DeleteMatakuliah')->name('delete.matakuliah');
+                    });
+
+                    //Dosen
+                    Route::prefix('dosen')->middleware(['dosen.policy', 'dosen.verify'])->group(function () {
+                        Route::get('/{dosen}', 'IndexDosen')->name('dosen.matakuliah');
+                        Route::get('/{dosen}/create', 'CreateDosen')->name('dosencreate.matakuliah');
+                        ROute::post('{dosen}', 'DosenPost')->name('dosenpost.matakuliah');
+                    });
+
+                    //Mahasiswa
+                    Route::prefix('mahasiswa')->group(function () {
+                        Route::get('/', 'IndexMahasiwa')->name('mahasiswa.matakuliah');
+
+                        //Menambahkan Matakuliah untuk Mahasiswa
+                        Route::prefix('mahasiswas')->group(function () {
+                            Route::get('/', 'IndexMahasiswas')->name('index.mahasiswas');
+                            Route::get('{mahasiswa}/show', 'ShowMahasiswa')->name('show.mahasiswa');
+                            Route::get('{mahasiswa}/create', 'CreateMahasiswa')->name('create.mahasiswa');
+                            Route::post('{mahasiswa}', 'MahasiswaPost')->name('post.mahasiswa');
+                        });
+
+                        //Mendaftarkan Mahasiswa untuk matakuliah
+                        Route::prefix('matakuliahs')->group(function () {
+                            Route::get('/', 'IndexMatakuliah')->name('index.matakuliahs');
+                            Route::get('{matakuliah}/show', 'ShowMatakuliah')->name('show.matakuliah');
+                            Route::get('{matakuliah}/create', 'CreateMatakuliahToMahasiswa')->name('createmahasiswato.matakuliah');
+                            Route::post('{matakuliah}', 'MatakuliahtoMasasiswas')->name('matakuliah.tomahasiswas');
+                        });
                     });
                 });
             });

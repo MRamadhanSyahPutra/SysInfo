@@ -240,7 +240,7 @@ const Navbar = ({ activePage, auth }) => {
                                 <img
                                     className="w-8 h-8 rounded-full"
                                     src={`${
-                                        auth.mhs.jenis_kelamin === "pria"
+                                        auth.mhs?.jenis_kelamin === "pria"
                                             ? "/images/boy.png"
                                             : "/images/woman.png"
                                     }`}
