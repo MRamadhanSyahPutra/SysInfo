@@ -4,13 +4,15 @@ import Table from "@/Layout/Table";
 import { route } from "Ziggy-js";
 
 const Index = () => {
-    const { dosen, admin, flash, mahasiswas } = usePage().props;
+    const { dosen, admin, flash, mahasiswas, auth } = usePage().props;
+    if (!auth) return null;
+
     const user = dosen || admin || "user not found";
     let i = mahasiswas.from;
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <Table
                         thead={

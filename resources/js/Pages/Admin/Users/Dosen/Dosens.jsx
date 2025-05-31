@@ -5,7 +5,9 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 
 const Dosens = () => {
-    const { flash, dosens, admin } = usePage().props;
+    const { flash, dosens, admin, auth } = usePage().props;
+
+    if (!auth) return null;
 
     const user = admin || "user not found";
 
@@ -47,7 +49,7 @@ const Dosens = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[64px]">
                     <Table
                         AddLink={

@@ -1,4 +1,4 @@
-import { useForm, Link, usePage } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import SideBar from "@/Layout/Sidebar";
 import Label from "@/components/Label";
 import Input from "@/components/Input";
@@ -6,12 +6,36 @@ import Select from "@/components/Select";
 import Button from "@/components/Button";
 import { route } from "Ziggy-js";
 import Form from "@/Layout/Form";
+import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 const EditMahasiswa = () => {
-    const { flash, dosen, admin, mahasiswa, kelas, name_parts } =
+    const { flash, dosen, admin, mahasiswa, kelas, name_parts, auth } =
         usePage().props;
 
+    if (!auth) return null;
+
     const user = dosen || admin || "user not found";
+
+    useEffect(() => {
+        if (flash.message) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                },
+            });
+            Toast.fire({
+                icon: "error",
+                title: flash.message,
+            });
+        }
+    }, [flash]);
 
     const { data, setData, put, processing, errors } = useForm({
         id: mahasiswa.id,
@@ -35,7 +59,7 @@ const EditMahasiswa = () => {
 
     return (
         <>
-            <SideBar status={user} flash={flash}>
+            <SideBar status={user} flash={flash} auth={auth}>
                 <div className="mt-[64px]">
                     <Form
                         title={"Update Mahasiswa"}
@@ -242,6 +266,10 @@ const EditMahasiswa = () => {
                                             )
                                         )}
                                     </Select>
+                                    <p className={"text-[10px]"}>
+                                        *Jika kelas penuh, kamu tidak bisa
+                                        masuk.
+                                    </p>
                                     {errors.kelas_id && (
                                         <p className="text-red-500 text-sm">
                                             {errors.kelas_id}

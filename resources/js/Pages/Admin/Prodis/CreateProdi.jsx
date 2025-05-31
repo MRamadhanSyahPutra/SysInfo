@@ -8,7 +8,8 @@ import Button from "@/components/Button";
 import Select from "@/components/Select";
 
 const CreateProdi = () => {
-    const { dosen, admin, flash, jurusan } = usePage().props;
+    const { dosen, admin, flash, jurusan, auth } = usePage().props;
+    if (!auth) return null;
 
     const user = dosen || admin || "user not found";
 
@@ -25,7 +26,7 @@ const CreateProdi = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <Form title={"Add Prodi"} hrefBack={route("prodi")}>
                         <form className="p-8" onSubmit={submit}>

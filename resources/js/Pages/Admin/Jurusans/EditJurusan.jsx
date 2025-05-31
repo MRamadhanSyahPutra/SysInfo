@@ -7,7 +7,8 @@ import { usePage, useForm } from "@inertiajs/react";
 import { route } from "Ziggy-js";
 
 const EditJurusan = () => {
-    const { flash, dosen, admin, jurusan } = usePage().props;
+    const { flash, dosen, admin, jurusan, auth } = usePage().props;
+    if (!auth) return null;
 
     const user = dosen || admin || "user not found";
 
@@ -22,7 +23,7 @@ const EditJurusan = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <Form title={"Update Jurusan"} hrefBack={route("jurusan")}>
                         <form className="p-8" onSubmit={submit}>

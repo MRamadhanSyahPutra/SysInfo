@@ -6,11 +6,35 @@ import Select from "@/components/Select";
 import Button from "@/components/Button";
 import { route } from "Ziggy-js";
 import Form from "@/Layout/Form";
+import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 const CreateMahasiswa = () => {
-    const { flash, dosen, admin, kelas } = usePage().props;
+    const { flash, dosen, admin, kelas, auth } = usePage().props;
+
+    if (!auth) return null;
 
     const user = dosen || admin || "user not found";
+
+    useEffect(() => {
+        if (flash.message) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                },
+            });
+            Toast.fire({
+                icon: "error",
+                title: flash.message,
+            });
+        }
+    }, [flash]);
 
     const { data, setData, post, processing, errors } = useForm({
         email: "",
@@ -33,7 +57,7 @@ const CreateMahasiswa = () => {
 
     return (
         <>
-            <SideBar status={user} flash={flash}>
+            <SideBar status={user} flash={flash} auth={auth}>
                 <div className="mt-[64px]">
                     <Form
                         title={"Add Mahasiswa"}
@@ -236,6 +260,10 @@ const CreateMahasiswa = () => {
                                             )
                                         )}
                                     </Select>
+                                    <p className={"text-[10px]"}>
+                                        *Jika kelas penuh, kamu tidak bisa
+                                        masuk.
+                                    </p>
                                     {errors.kelas_id && (
                                         <p className="text-red-500 text-sm">
                                             {errors.kelas_id}

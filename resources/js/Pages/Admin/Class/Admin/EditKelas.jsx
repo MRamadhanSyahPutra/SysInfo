@@ -8,7 +8,10 @@ import { usePage, useForm } from "@inertiajs/react";
 import { route } from "Ziggy-js";
 
 const EditKelas = () => {
-    const { dosen, admin, flash, prodis, dosens, kelas } = usePage().props;
+    const { dosen, admin, flash, prodis, dosens, kelas, auth } =
+        usePage().props;
+    if (!auth) return null;
+
     const user = dosen || admin || "user not found";
 
     const { data, setData, put, processing, errors } = useForm({
@@ -25,7 +28,7 @@ const EditKelas = () => {
     };
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <Form
                         title={"Update Class"}

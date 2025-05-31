@@ -6,7 +6,10 @@ import { useEffect } from "react";
 import CardForm from "@/components/CardForm";
 
 const Create = () => {
-    const { dosen, admin, flash, mahasiswas, matakuliah } = usePage().props;
+    const { dosen, admin, flash, mahasiswas, matakuliah, auth } =
+        usePage().props;
+    if (!auth) return null;
+
     const user = dosen || admin || "user not found";
 
     useEffect(() => {
@@ -42,7 +45,7 @@ const Create = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <CardForm
                         addRouteBack={route("show.matakuliah", matakuliah.id)}
@@ -72,48 +75,57 @@ const Create = () => {
                     >
                         <form onSubmit={submit}>
                             <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mb-5 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                {mahasiswas.map((mhs) => {
-                                    const isChecked = mhs.matakuliahs.some(
-                                        (mhs) => mhs.id === matakuliah.id
-                                    );
-                                    return (
-                                        <li
-                                            key={mhs.id}
-                                            className="flex items-center space-x-2 border-b border-gray-200 pb-2 dark:border-gray-600"
-                                        >
-                                            <input
-                                                id={`checkbox-${mhs.id}`}
-                                                type="checkbox"
-                                                value={mhs.id}
-                                                onChange={handleCheckboxChange}
-                                                defaultChecked={isChecked}
-                                                name="matakuliah_id"
-                                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                                            />
-                                            <label
-                                                htmlFor={`checkbox-${mhs.id}`}
-                                                className="text-sm font-medium text-gray-900 dark:text-gray-300"
+                                {mahasiswas.length === 0 ? (
+                                    <p className="text-center col-span-2 text-sm text-gray-500 dark:text-gray-300">
+                                        Belum terdapat data mahasiswa yang
+                                        terdaftar.
+                                    </p>
+                                ) : (
+                                    mahasiswas.map((mhs) => {
+                                        const isChecked = mhs.matakuliahs.some(
+                                            (mhs) => mhs.id === matakuliah.id
+                                        );
+                                        return (
+                                            <li
+                                                key={mhs.id}
+                                                className="flex items-center space-x-2 border-b border-gray-200 pb-2 dark:border-gray-600"
                                             >
-                                                {mhs.nama_lengkap}
-                                            </label>
-                                        </li>
-                                    );
-                                })}
+                                                <input
+                                                    id={`checkbox-${mhs.id}`}
+                                                    type="checkbox"
+                                                    value={mhs.id}
+                                                    onChange={
+                                                        handleCheckboxChange
+                                                    }
+                                                    defaultChecked={isChecked}
+                                                    name="matakuliah_id"
+                                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                                                />
+                                                <label
+                                                    htmlFor={`checkbox-${mhs.id}`}
+                                                    className="text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                >
+                                                    {mhs.nama_lengkap}
+                                                </label>
+                                            </li>
+                                        );
+                                    })
+                                )}
                             </ul>
                             {errors.mahasiswa_id && (
                                 <p className="text-red-500 text-sm">
                                     {errors.mahasiswa_id}
                                 </p>
                             )}
-                            <Button
-                                type={"submit"}
-                                className={
-                                    "text-sm px-6 py-3 xl:mb-5 xl:text-sm xl:px-5 xl:py-2.5"
-                                }
-                                disabled={processing}
-                            >
-                                {processing ? "Processing.." : "Adding"}
-                            </Button>
+                            {mahasiswas.length > 0 && (
+                                <Button
+                                    type={"submit"}
+                                    className="text-sm px-6 py-3 xl:mb-5 xl:text-sm xl:px-5 xl:py-2.5 "
+                                    disabled={processing}
+                                >
+                                    {processing ? "Processing.." : "Adding"}
+                                </Button>
+                            )}
                         </form>
                     </CardForm>
                 </div>

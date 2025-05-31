@@ -8,7 +8,9 @@ import { route } from "Ziggy-js";
 import Select from "@/components/Select";
 
 const Edit = () => {
-    const { dosen, admin, flash, prodis, dosens, matakuliah } = usePage().props;
+    const { dosen, admin, flash, prodis, dosens, matakuliah, auth } =
+        usePage().props;
+    if (!auth) return null;
 
     const user = dosen || admin || "user not found";
 
@@ -27,7 +29,7 @@ const Edit = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <Form title={"Add Class"} hrefBack={route("matakuliah")}>
                         <form className="p-8" onSubmit={submit}>

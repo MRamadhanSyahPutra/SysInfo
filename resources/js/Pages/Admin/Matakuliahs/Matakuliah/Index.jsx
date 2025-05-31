@@ -6,7 +6,8 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 
 const Index = () => {
-    const { dosen, admin, flash, matakuliahs } = usePage().props;
+    const { dosen, admin, flash, matakuliahs, auth } = usePage().props;
+    if (!auth) return null;
 
     const user = dosen || admin || "user not found";
 
@@ -48,16 +49,18 @@ const Index = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <Table
                         AddLink={
-                            <Link
-                                href={route("create.matakuliah")}
-                                className="btn-greenc font-medium rounded-[6px] me-2 mb-2 px-3 py-2 ml-5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                            >
-                                Add Matakuliah
-                            </Link>
+                            auth.admin && (
+                                <Link
+                                    href={route("create.matakuliah")}
+                                    className="btn-greenc font-medium rounded-[6px] me-2 mb-2 px-3 py-2 ml-5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                                >
+                                    Add Matakuliah
+                                </Link>
+                            )
                         }
                         thead={
                             <tr>
@@ -76,9 +79,11 @@ const Index = () => {
                                 <th scope="col" className="px-6 py-3">
                                     Dosen Pengajar
                                 </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Action
-                                </th>
+                                {auth.admin && (
+                                    <th scope="col" className="px-6 py-3">
+                                        Action
+                                    </th>
+                                )}
                             </tr>
                         }
                         searchRoute={"matakuliah"}
@@ -105,28 +110,29 @@ const Index = () => {
                                 <td className="px-6 py-4">
                                     {matakuliah.dosen.name}
                                 </td>
-
-                                <td className="px-6 py-4">
-                                    <Link
-                                        href={route(
-                                            "edit.matakuliah",
-                                            matakuliah.id
-                                        )}
-                                        className="font-medium mr-5 text-blue-600 dark:text-blue-500 hover:underline"
-                                    >
-                                        Edit
-                                    </Link>
-                                    <Link
-                                        preserveScroll
-                                        href="#"
-                                        className="font-medium text-red-600 dark:text-blue-500 hover:underline"
-                                        onClick={() =>
-                                            matakuliahDelete(matakuliah.id)
-                                        }
-                                    >
-                                        Delete
-                                    </Link>
-                                </td>
+                                {auth.admin && (
+                                    <td className="px-6 py-4">
+                                        <Link
+                                            href={route(
+                                                "edit.matakuliah",
+                                                matakuliah.id
+                                            )}
+                                            className="font-medium mr-5 text-blue-600 dark:text-blue-500 hover:underline"
+                                        >
+                                            Edit
+                                        </Link>
+                                        <Link
+                                            preserveScroll
+                                            href="#"
+                                            className="font-medium text-red-600 dark:text-blue-500 hover:underline"
+                                            onClick={() =>
+                                                matakuliahDelete(matakuliah.id)
+                                            }
+                                        >
+                                            Delete
+                                        </Link>
+                                    </td>
+                                )}
                             </tr>
                         ))}
                     </Table>

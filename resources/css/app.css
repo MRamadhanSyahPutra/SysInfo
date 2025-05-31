@@ -218,15 +218,18 @@ hr {
 
 /* Color Dashboard */
 /* Card-user */
-.color-bg-user {
-    background-color: var(--bg-card-column-user);
+.color-bg-dashboard {
+    background-color: var(--navbar-scroll);
 }
 
-.color-bg-user:hover {
-    background-color: #228f85;
+.color-bg-dashboard:hover {
+    background-color: #8abb99;
 }
-.circle-bg-user {
-    background-color: var(--bg-card-circle-user);
+.circle-bg-dashboard {
+    background-color: #c7f3d5;
+}
+.text-dashboard {
+    color: #3e5c48;
 }
 
 /* Card-jurusan */
@@ -275,4 +278,11 @@ hr {
     inset: 0px auto auto 0px;
     margin: 0px;
     transform: translate3d(1264px, 259px, 0px);
+}
+
+.text-profile {
+    color: #d4a287;
+}
+.bg-profile {
+    background-color: #eae6da;
 }

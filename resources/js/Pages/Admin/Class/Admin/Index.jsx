@@ -6,7 +6,8 @@ import { route } from "Ziggy-js";
 import { useEffect } from "react";
 
 const IndexAdmin = () => {
-    const { dosen, admin, flash, kelas } = usePage().props;
+    const { dosen, admin, flash, kelas, auth } = usePage().props;
+    if (!auth) return null;
 
     const user = dosen || admin || "user not found";
 
@@ -48,7 +49,7 @@ const IndexAdmin = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <Table
                         AddLink={

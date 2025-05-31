@@ -5,12 +5,13 @@ import { route } from "Ziggy-js";
 
 const UsersIndex = () => {
     const { flash, dosen, admin, auth } = usePage().props;
+    if (!auth) return null;
 
     const user = dosen || admin || "user not found";
 
     return (
         <>
-            <Sidebar flash={flash} status={user}>
+            <Sidebar flash={flash} status={user} auth={auth}>
                 <div className="grid grid-cols-4 grid-rows-12 xl:grid-rows-4 gap-4 mt-[65px]">
                     {/* Mahasiswa */}
                     <div className="col-span-4 row-span-1 lg:col-span-2 xl:col-span-2 xl:row-span-3 flex justify-center items-center ">

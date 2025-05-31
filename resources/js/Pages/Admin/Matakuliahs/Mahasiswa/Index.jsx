@@ -4,13 +4,14 @@ import Card from "@/components/ui/Card";
 import { route } from "Ziggy-js";
 
 const Index = () => {
-    const { dosen, admin, flash } = usePage().props;
+    const { dosen, admin, flash, auth } = usePage().props;
+    if (!auth) return null;
 
     const user = dosen || admin || "user not found";
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="grid grid-cols-4 grid-rows-3 xl:grid-rows-8 gap-4 mt-[65px]">
                     {/* Matakuliah */}
                     <div className="col-span-4 row-span-1 lg:col-span-2 xl:col-span-2 xl:row-span-3 flex justify-center items-center ">

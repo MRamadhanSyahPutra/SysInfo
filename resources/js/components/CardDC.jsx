@@ -1,6 +1,5 @@
 import ApexCharts from "apexcharts";
-import { useEffect, useRef, useLayoutEffect, useState } from "react";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { useEffect, useRef, useLayoutEffect } from "react";
 import { route } from "Ziggy-js";
 
 const CardDC = ({ prodi }) => {
@@ -15,7 +14,7 @@ const CardDC = ({ prodi }) => {
     useLayoutEffect(() => {
         const getChartOptions = () => ({
             series: [TI.length, MdB.length, TE.length, TM.length],
-            colors: ["#1C64F2", "#16BDCA", "#9061F9"],
+            colors: ["#58B292", "#5083C0", "#FC5152", "#AF7AFC"],
             chart: {
                 height: 420,
                 width: "100%",
@@ -181,73 +180,6 @@ const CardDC = ({ prodi }) => {
                                 <div data-popper-arrow></div>
                             </div>
                         </div>
-                    </div>
-                    <div className="flex justify-end items-center">
-                        {/* Menu-drop-down */}
-                        <Menu
-                            as="div"
-                            className="relative inline-block text-left"
-                        >
-                            <div>
-                                <MenuButton className="inline-flex items-center ada justify-center text-gray-500 w-8 h-8 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm">
-                                    <svg
-                                        className="w-3.5 h-3.5 text-gray-800 dark:text-white"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="currentColor"
-                                        viewBox="0 0 16 3"
-                                    >
-                                        <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                                    </svg>
-                                    <span className="sr-only">
-                                        Open dropdown
-                                    </span>
-                                </MenuButton>
-                            </div>
-
-                            <MenuItems
-                                transition
-                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                            >
-                                <div className="py-1">
-                                    <MenuItem>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                                        >
-                                            Account settings
-                                        </a>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                                        >
-                                            Support
-                                        </a>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                                        >
-                                            License
-                                        </a>
-                                    </MenuItem>
-                                    <form action="#" method="POST">
-                                        <MenuItem>
-                                            <button
-                                                type="submit"
-                                                className="block w-full px-4 py-2 text-left text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                                            >
-                                                Sign out
-                                            </button>
-                                        </MenuItem>
-                                    </form>
-                                </div>
-                            </MenuItems>
-                        </Menu>
-                        {/* End-menu-drop-down */}
                     </div>
                 </div>
 

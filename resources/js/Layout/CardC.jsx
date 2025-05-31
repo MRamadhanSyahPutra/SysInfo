@@ -4,16 +4,16 @@ const CardC = () => {
     const cardHeader = {
         head: ["", "xl:col-start-3", "xl:col-start-5", "xl:col-start-7"],
         classname: [
-            "color-bg-user",
-            "color-bg-jurusan",
-            "color-bg-prodi",
-            "color-bg-matakuliah",
+            "color-bg-dashboard",
+            "color-bg-dashboard",
+            "color-bg-dashboard",
+            "color-bg-dashboard",
         ],
         classCircle: [
-            "circle-bg-user",
-            "circle-bg-jurusan",
-            "circle-bg-prodi",
-            "circle-bg-matakuliah",
+            "circle-bg-dashboard",
+            "circle-bg-dashboard",
+            "circle-bg-dashboard",
+            "circle-bg-dashboard",
         ],
         title: ["Users", "Jurusan", "Prodi", "Matakuliah"],
         subTitle: ["Dosen & Mahasiswa", "TI, M&B, TE,& TM", "All", "All"],
@@ -32,7 +32,7 @@ const CardC = () => {
             >
                 <g
                     fill="none"
-                    stroke="#26a69a"
+                    stroke="#A1D6B2"
                     strokeDasharray="28"
                     strokeDashoffset="28"
                     strokeLinecap="round"
@@ -65,7 +65,7 @@ const CardC = () => {
                 viewBox="0 0 24 24"
             >
                 <path
-                    fill="#9c27b0"
+                    fill="#A1D6B2"
                     d="M5 17v-7h2v7zm6 0v-7h2v7zm-9 4v-2h20v2zm15-4v-7h2v7zM2 8V6l10-5l10 5v2zm4.45-2h11.1zm0 0h11.1L12 3.25z"
                 />
             </svg>,
@@ -76,7 +76,7 @@ const CardC = () => {
                 viewBox="0 0 16 16"
             >
                 <path
-                    fill="#ffb300"
+                    fill="#A1D6B2"
                     fillRule="evenodd"
                     d="M14.5 2H9l-.35.15l-.65.64l-.65-.64L7 2H1.5l-.5.5v10l.5.5h5.29l.86.85h.7l.86-.85h5.29l.5-.5v-10zm-7 10.32l-.18-.17L7 12H2V3h4.79l.74.74zM14 12H9l-.35.15l-.14.13V3.7l.7-.7H14zM6 5H3v1h3zm0 4H3v1h3zM3 7h3v1H3zm10-2h-3v1h3zm-3 2h3v1h-3zm0 2h3v1h-3z"
                     clipRule="evenodd"
@@ -91,13 +91,13 @@ const CardC = () => {
                 <mask id="lineMdFileDocumentFilled0">
                     <g
                         fill="none"
-                        stroke="#6200ea"
+                        stroke="#A1D6B2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="2"
                     >
                         <path
-                            fill="#6200ea"
+                            fill="#A1D6B2"
                             fillOpacity="0"
                             strokeDasharray="64"
                             strokeDashoffset="64"
@@ -171,7 +171,7 @@ const CardC = () => {
                 <rect
                     width="24"
                     height="24"
-                    fill="#000"
+                    fill="#A1D6B2"
                     mask="url(#lineMdFileDocumentFilled0)"
                 />
             </svg>,

@@ -6,7 +6,8 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 
 const Index = () => {
-    const { dosen, admin, flash, prodis } = usePage().props;
+    const { dosen, admin, flash, prodis, auth } = usePage().props;
+    if (!auth) return null;
 
     const user = dosen || admin || "user not found";
 
@@ -48,16 +49,18 @@ const Index = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <Table
                         AddLink={
-                            <Link
-                                href={route("createprodi")}
-                                className="btn-greenc font-medium rounded-[6px] me-2 mb-2 px-3 py-2 ml-5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                            >
-                                Add Prodi
-                            </Link>
+                            auth.admin && (
+                                <Link
+                                    href={route("createprodi")}
+                                    className="btn-greenc font-medium rounded-[6px] me-2 mb-2 px-3 py-2 ml-5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                                >
+                                    Add Prodi
+                                </Link>
+                            )
                         }
                         thead={
                             <tr>
@@ -70,9 +73,11 @@ const Index = () => {
                                 <th scope="col" className="px-6 py-3">
                                     Jurusan
                                 </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Action
-                                </th>
+                                {auth.admin && (
+                                    <th scope="col" className="px-6 py-3">
+                                        Action
+                                    </th>
+                                )}
                             </tr>
                         }
                         paginate={prodis}
@@ -95,23 +100,26 @@ const Index = () => {
                                 <td className="px-6 py-4">
                                     {prodi.jurusan.name}
                                 </td>
-
-                                <td className="px-6 py-4">
-                                    <Link
-                                        href={route("prodi.edit", prodi.id)}
-                                        className="font-medium mr-5 text-blue-600 dark:text-blue-500 hover:underline"
-                                    >
-                                        Edit
-                                    </Link>
-                                    <Link
-                                        preserveScroll
-                                        href="#"
-                                        className="font-medium text-red-600 dark:text-blue-500 hover:underline"
-                                        onClick={() => prodiDelete(prodi.id)}
-                                    >
-                                        Delete
-                                    </Link>
-                                </td>
+                                {auth.admin && (
+                                    <td className="px-6 py-4">
+                                        <Link
+                                            href={route("prodi.edit", prodi.id)}
+                                            className="font-medium mr-5 text-blue-600 dark:text-blue-500 hover:underline"
+                                        >
+                                            Edit
+                                        </Link>
+                                        <Link
+                                            preserveScroll
+                                            href="#"
+                                            className="font-medium text-red-600 dark:text-blue-500 hover:underline"
+                                            onClick={() =>
+                                                prodiDelete(prodi.id)
+                                            }
+                                        >
+                                            Delete
+                                        </Link>
+                                    </td>
+                                )}
                             </tr>
                         ))}
                     </Table>

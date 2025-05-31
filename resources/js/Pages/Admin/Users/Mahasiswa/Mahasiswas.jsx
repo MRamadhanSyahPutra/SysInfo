@@ -6,7 +6,8 @@ import Swal from "sweetalert2";
 import { useEffect } from "react";
 
 const Mahasiswas = () => {
-    const { flash, dosen, admin, mahasiwa } = usePage().props;
+    const { flash, dosen, admin, mahasiwa, auth } = usePage().props;
+    if (!auth) return null;
 
     const user = dosen || admin || "user not found";
 
@@ -48,7 +49,7 @@ const Mahasiswas = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[64px]">
                     <Table
                         AddLink={

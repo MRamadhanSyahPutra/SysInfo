@@ -7,7 +7,8 @@ import CardDB from "@/components/CardDB";
 import CardDC from "@/components/CardDC";
 
 const Dashboard = () => {
-    const { flash, admin, dosen, kelas, prodi } = usePage().props;
+    const { flash, admin, dosen, kelas, prodi, auth } = usePage().props;
+    if (!auth) return null;
 
     const user = admin || dosen || "user not found";
 
@@ -24,7 +25,7 @@ const Dashboard = () => {
 
     return (
         <>
-            <Sidebar flash={flash} status={user}>
+            <Sidebar flash={flash} status={user} auth={auth}>
                 <div className="grid grid-cols-2 grid-rows-2 sm:grid-rows-2 md:grid-rows-1  xl:grid-cols-8 xl:grid-rows-12 gap-5 mt-[65px]">
                     {/* Card-component-header */}
                     <CardC />

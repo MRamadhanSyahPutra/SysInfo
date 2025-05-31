@@ -9,7 +9,9 @@ import { route } from "Ziggy-js";
 import { useEffect } from "react";
 
 const CreateKelasToDosen = () => {
-    const { dosen, admin, flash, prodis, dosens } = usePage().props;
+    const { dosen, admin, flash, prodis, dosens, auth } = usePage().props;
+    if (!auth) return null;
+
     const user = dosen || admin || "user not found";
 
     const { data, setData, post, processing, errors } = useForm({
@@ -46,7 +48,7 @@ const CreateKelasToDosen = () => {
     };
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <Form
                         title={"Add Class"}

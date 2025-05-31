@@ -8,7 +8,9 @@ import Button from "@/components/Button";
 import { route } from "Ziggy-js";
 
 const Create = () => {
-    const { dosen, flash, prodis, dosens } = usePage().props;
+    const { dosen, flash, prodis, dosens, auth } = usePage().props;
+    if (!auth) return null;
+
     const user = dosen || "user not found";
 
     const { data, setData, errors, post, processing } = useForm({
@@ -26,7 +28,7 @@ const Create = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <Form
                         title={"Add Matakuliah"}

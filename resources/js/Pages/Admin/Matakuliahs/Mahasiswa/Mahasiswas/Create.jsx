@@ -6,7 +6,10 @@ import { useEffect } from "react";
 import CardForm from "@/components/CardForm";
 
 const Create = () => {
-    const { dosen, admin, flash, mahasiswa, matakuliahs } = usePage().props;
+    const { dosen, admin, flash, mahasiswa, matakuliahs, auth } =
+        usePage().props;
+    if (!auth) return null;
+
     const user = dosen || admin || "user not found";
 
     useEffect(() => {
@@ -42,7 +45,7 @@ const Create = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <CardForm
                         addRouteBack={route("show.mahasiswa", mahasiswa.id)}

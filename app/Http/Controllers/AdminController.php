@@ -190,6 +190,11 @@ class AdminController extends Controller
                 ]
             );
 
+            $kelas = Kelas::with('mahasiswas')->find($request->kelas_id);
+            if ($kelas->mahasiswas->count() >= $kelas->data_tampung) {
+                return redirect()->route('createmahasiswas')->with('message', 'Kuota kelas telah penuh!');
+            }
+
             Mahasiswa::create([
                 'nama_lengkap' => trim($request->first_name . ' ' . $request->last_name),
                 'email' => $request['email'],
@@ -283,6 +288,10 @@ class AdminController extends Controller
                     'kelas_id.exists' => 'Kelas yang di pilih tidak tersedia!'
                 ]
             );
+            $kelas = Kelas::with('mahasiswas')->find($request->kelas_id);
+            if ($kelas->mahasiswas->count() >= $kelas->data_tampung) {
+                return redirect()->route('mahasiswa.edit', $mahasiswa_id)->with('message', 'Kuota kelas telah penuh!');
+            }
 
             $updateData = [
                 'nama_lengkap' => trim($request->first_name . ' ' . $request->last_name),
@@ -512,6 +521,25 @@ class AdminController extends Controller
         $dosen->delete();
 
         return redirect()->route('dosens')->with('message', 'Dosen berhasil dihapus!');
+    }
+
+    //Profile
+    public function Profile()
+    {
+        $admin = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : null;
+        $dosen = Auth::guard('dosen')->check() ? Auth::guard('dosen')->user() : null;
+
+        if ($admin) {
+            $user = Admin::find($admin->id);
+        } else if ($dosen) {
+            $user = Dosen::with('prodi.jurusan', 'kelass', 'matakuliahs')->find($dosen->id);
+        } else {
+            $user = null;
+        }
+
+        return inertia('Admin/Profile', [
+            'user' => $user
+        ]);
     }
 
 

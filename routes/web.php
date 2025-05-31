@@ -49,6 +49,7 @@ Route::prefix('admin')->group(function () {
     Route::prefix('dashboard')->middleware(['auth.multi', 'guest.mhs'])->group(function () {
         Route::controller(AdminController::class)->group(function () {
             Route::get('/', 'Dashboard')->name('dashboard');
+            Route::get('profile', 'Profile')->name('profile');
             Route::get('logout', 'Logout')->name('Logout');
 
             // Users(Mahasiswa & Dosen)
@@ -78,11 +79,13 @@ Route::prefix('admin')->group(function () {
             Route::controller(JurusanController::class)->group(function () {
                 Route::prefix('jurusans')->group(function () {
                     Route::get('/', 'Jurusans')->name('jurusan');
-                    Route::get('create', 'CreateJurusan')->name('createjurusan');
-                    Route::post('/', 'JurusanPost')->name('jurusanpost');
-                    Route::get('{jurusan}/edit', 'EditJurusan')->name('jurusan.edit');
-                    Route::put('{jurusan}', 'UpdateJurusan')->name('jurusan.update');
-                    Route::delete('{jurusan}', 'JurusanDelete')->name('jurusan.delete');
+                    Route::prefix('/')->middleware('admin.policy')->group(function () {
+                        Route::get('create', 'CreateJurusan')->name('createjurusan');
+                        Route::post('/', 'JurusanPost')->name('jurusanpost');
+                        Route::get('{jurusan}/edit', 'EditJurusan')->name('jurusan.edit');
+                        Route::put('{jurusan}', 'UpdateJurusan')->name('jurusan.update');
+                        Route::delete('{jurusan}', 'JurusanDelete')->name('jurusan.delete');
+                    });
                 });
             });
 
@@ -90,11 +93,13 @@ Route::prefix('admin')->group(function () {
             Route::controller(ProdiController::class)->group(function () {
                 Route::prefix('prodis')->group(function () {
                     Route::get('/', 'Prodis')->name('prodi');
-                    Route::get('create', 'CreateProdi')->name('createprodi');
-                    Route::post('/', 'ProdiPost')->name('prodipost');
-                    Route::get('{prodi}/edit', 'ProdiEdit')->name('prodi.edit');
-                    Route::put('{prodi}', 'UpdateProdi')->name('prodi.update');
-                    Route::delete('{prodi}', 'ProdiDelete')->name('prodi.delete');
+                    Route::prefix('/')->middleware('admin.policy')->group(function () {
+                        Route::get('create', 'CreateProdi')->name('createprodi');
+                        Route::post('/', 'ProdiPost')->name('prodipost');
+                        Route::get('{prodi}/edit', 'ProdiEdit')->name('prodi.edit');
+                        Route::put('{prodi}', 'UpdateProdi')->name('prodi.update');
+                        Route::delete('{prodi}', 'ProdiDelete')->name('prodi.delete');
+                    });
                 });
             });
 
@@ -105,17 +110,24 @@ Route::prefix('admin')->group(function () {
 
                     Route::prefix('dosen')->middleware(['dosen.policy', 'dosen.verify'])->group(function () {
                         Route::get('/{dosen}', 'IndexDosen')->name('class.dosen');
+
+                        Route::prefix('to')->group(function () {
+                            Route::get('/class/{dosen}/{class}', 'IndexClassMahasiswas')->name('index.classmahasiswas');
+                        });
+
                         Route::get('{dosen}/create', 'CreateClassToDosen')->name('createclassto.dosen');
                         Route::post('{dosen}/create/post', 'ClassToDosenPost')->name('createtodosen.post');
                     });
 
                     Route::prefix('admin')->group(function () {
                         Route::get('/', 'IndexAdmin')->name('class.admin');
-                        Route::get('create', 'CreateKelas')->name('createkelas.admin');
-                        Route::post('/', 'ClassPost')->name('classpost.admin');
-                        Route::get('{kelas}/edit', 'ClassEdit')->name('classedit.admin');
-                        Route::put('{kelas}', 'ClassUpdate')->name('classupdate.admin');
-                        Route::delete('{kelas}', 'ClassDelete')->name('classdelete.admin');
+                        Route::prefix('/')->middleware('admin.policy')->group(function () {
+                            Route::get('create', 'CreateKelas')->name('createkelas.admin');
+                            Route::post('/', 'ClassPost')->name('classpost.admin');
+                            Route::get('{kelas}/edit', 'ClassEdit')->name('classedit.admin');
+                            Route::put('{kelas}', 'ClassUpdate')->name('classupdate.admin');
+                            Route::delete('{kelas}', 'ClassDelete')->name('classdelete.admin');
+                        });
                     });
                 });
             });
@@ -128,11 +140,13 @@ Route::prefix('admin')->group(function () {
                     //Matakuliahs
                     Route::prefix('matakuliah')->group(function () {
                         Route::get('/', 'MatakuliahIndex')->name('matakuliah');
-                        Route::get('create', 'CreateMatakuliah')->name('create.matakuliah');
-                        Route::post('/', 'MatakuliahPost')->name('post.matakuliah');
-                        Route::get('{matakuliah}/edit', 'EditMatakuliah')->name('edit.matakuliah');
-                        Route::put('{matakuliah}', 'UpdateMatakuliah')->name('update.matakuliah');
-                        Route::delete('{matakuliah}', 'DeleteMatakuliah')->name('delete.matakuliah');
+                        Route::prefix('/')->middleware('admin.policy')->group(function () {
+                            Route::get('create', 'CreateMatakuliah')->name('create.matakuliah');
+                            Route::post('/', 'MatakuliahPost')->name('post.matakuliah');
+                            Route::get('{matakuliah}/edit', 'EditMatakuliah')->name('edit.matakuliah');
+                            Route::put('{matakuliah}', 'UpdateMatakuliah')->name('update.matakuliah');
+                            Route::delete('{matakuliah}', 'DeleteMatakuliah')->name('delete.matakuliah');
+                        });
                     });
 
                     //Dosen

@@ -36,7 +36,8 @@ class KelasController extends Controller
                     $q->where('name', 'like', $search);
                 })
                 ->orWhereHas('dosen', function ($q) use ($search) {
-                    $q->where('name', 'like', $search); });
+                    $q->where('name', 'like', $search);
+                });
         })->paginate(5);
 
         return inertia('Admin/Class/Admin/Index', [
@@ -246,5 +247,22 @@ class KelasController extends Controller
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
+    }
+
+    public function IndexClassMahasiswas($dosen_id, $kelas_id)
+    {
+        $admin = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : null;
+        $dosen = Dosen::find($dosen_id);
+
+        $prodi = Prodi::with('jurusan')->find($dosen->prodi_id);
+
+        $kelas = Kelas::with('mahasiswas')->find($kelas_id);
+
+        return inertia('Admin/Class/Dosen/Mahasiswas/Index', [
+            'admin' => $admin,
+            'dosen' => $dosen,
+            'prodi' => $prodi,
+            'kelas' => $kelas
+        ]);
     }
 }

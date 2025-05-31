@@ -8,7 +8,8 @@ import { route } from "Ziggy-js";
 import Select from "@/components/Select";
 
 const Create = () => {
-    const { dosen, admin, flash, prodis, dosens } = usePage().props;
+    const { dosen, admin, flash, prodis, dosens, auth } = usePage().props;
+    if (!auth) return null;
 
     const user = dosen || admin || "user not found";
 
@@ -27,7 +28,7 @@ const Create = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <Form
                         title={"Add Matakuliah"}

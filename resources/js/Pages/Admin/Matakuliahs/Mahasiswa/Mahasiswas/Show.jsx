@@ -6,7 +6,9 @@ import Swal from "sweetalert2";
 import CardBio from "@/components/CardBio";
 
 const Show = () => {
-    const { dosen, admin, flash, mahasiswa } = usePage().props;
+    const { dosen, admin, flash, mahasiswa, auth } = usePage().props;
+    if (!auth) return null;
+
     const user = dosen || admin || "user not found";
 
     useEffect(() => {
@@ -31,7 +33,7 @@ const Show = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <CardBio
                         firstPlace={

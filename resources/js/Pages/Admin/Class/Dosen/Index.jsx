@@ -5,7 +5,9 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 
 const IndexDosen = () => {
-    const { dosen, admin, flash, prodi, kelas } = usePage().props;
+    const { dosen, admin, flash, prodi, kelas, auth } = usePage().props;
+    if (!auth) return null;
+
     const user = dosen || admin || "user not found";
 
     useEffect(() => {
@@ -30,7 +32,7 @@ const IndexDosen = () => {
 
     return (
         <>
-            <Sidebar status={user} flash={flash}>
+            <Sidebar status={user} flash={flash} auth={auth}>
                 <div className="mt-[65px]">
                     <div className="grid grid-cols-5 grid-rows-1 gap-4 xl:grid-rows-5 xl:gap-4 bg-transparent shadow p-10 rounded-3xl ">
                         <div className="col-span-5 row-span-2 xl:col-span-2 xl:row-span-5 ">
@@ -59,17 +61,32 @@ const IndexDosen = () => {
                                 {user.nid}
                             </div>
                             <hr />
-
                             <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white mt-2">
                                 Kelas yang dibimbing :
                             </h2>
                             <ul className="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
                                 {kelas.length >= 1 ? (
                                     kelas.map((kls, index) => (
-                                        <li key={index}>{kls.name}</li>
+                                        <li key={index}>
+                                            <Link
+                                                href={route(
+                                                    "index.classmahasiswas",
+                                                    [user.id, kls.id]
+                                                )}
+                                            >
+                                                {kls.name}
+                                            </Link>
+                                        </li>
                                     ))
                                 ) : (
-                                    <li>{kelas.name}</li>
+                                    <Link
+                                        href={route("index.classmahasiswas", [
+                                            user.id,
+                                            kelas.id,
+                                        ])}
+                                    >
+                                        {kelas.name}
+                                    </Link>
                                 )}
                             </ul>
                             <Link
