@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Jurusan;
+use App\Models\Admin;
+use App\Models\Dosen;
 use App\Models\Prodi;
+use App\Models\Jurusan;
 use App\Models\Mahasiswa;
 use App\Models\Matakuliah;
 use Illuminate\Http\Request;
@@ -64,7 +66,7 @@ class MahasiswaController extends Controller
             if (Auth::guard('mahasiswa')->attempt($request->only(['email', 'password']))) {
                 $mhs = Auth::guard('mahasiswa')->user();
                 session()->regenerate();
-                return redirect()->route('home')->with('message', "$mhs->name berhasil login!");
+                return redirect()->route('mahasiswa.dashboard')->with('message', "$mhs->name berhasil login!");
             }
             return redirect()->back()->withErrors(['emailpassword' => 'Email atau password salah!'])->withInput();
 
@@ -74,17 +76,86 @@ class MahasiswaController extends Controller
 
     }
 
-    public function Home()
+    public function Dashboard()
     {
-        return inertia('Mahasiswa/Home', [
+        $mhs = null;
+        if (Auth::guard('mahasiswa')->check()) {
+            $mhsId = Auth::guard('mahasiswa')->user();
+            $mhs = Mahasiswa::with('matakuliahs.prodi')->find($mhsId->id);
+        }
+
+        $dosen = null;
+        if (Auth::guard('dosen')->check()) {
+            $dosenId = Auth::guard('dosen')->user();
+            $dosen = Dosen::with('matakuliahs.prodi')->find($dosenId->id);
+        }
+
+        $admin = null;
+        if (Auth::guard('admin')->check()) {
+            $adminId = Auth::guard('admin')->user();
+            $admin = Admin::find($adminId->id);
+        }
+
+        return inertia('Mahasiswa/Dashboard', [
             'auth' => [
-                'mhs' => Auth::guard('mahasiswa')->user(),
-                'dosen' => Auth::guard('dosen')->user(),
-                'admin' => Auth::guard('admin')->user(),
-            ],
+                'mhs' => $mhs,
+                'dosen' => $dosen,
+                'admin' => $admin,
+            ]
         ]);
     }
 
+    public function Mycourses()
+    {
+        $mhs = null;
+        if (Auth::guard('mahasiswa')->check()) {
+            $mhsId = Auth::guard('mahasiswa')->user();
+            $mhs = Mahasiswa::with('matakuliahs.prodi')->find($mhsId->id);
+        }
+
+        $dosen = null;
+        if (Auth::guard('dosen')->check()) {
+            $dosenId = Auth::guard('dosen')->user();
+            $dosen = Dosen::with('matakuliahs.prodi')->find($dosenId->id);
+        }
+
+        return inertia('Mahasiswa/MyCourses', [
+            'auth' => [
+                'mhs' => $mhs,
+                'dosen' => $dosen,
+                'admin' => Auth::guard('admin')->user(),
+            ]
+        ]);
+    }
+
+    public function Profile()
+    {
+        $mhs = null;
+        if (Auth::guard('mahasiswa')->check()) {
+            $mhsId = Auth::guard('mahasiswa')->user();
+            $mhs = Mahasiswa::with('matakuliahs', 'kelas.prodi.jurusan', 'kelas.dosen')->find($mhsId->id);
+        }
+
+        $dosen = null;
+        if (Auth::guard('dosen')->check()) {
+            $dosenId = Auth::guard('dosen')->user();
+            $dosen = Dosen::with('prodi.jurusan', 'kelass', 'matakuliahs')->find($dosenId->id);
+        }
+
+        $admin = null;
+        if (Auth::guard('admin')->check()) {
+            $adminId = Auth::guard('admin')->user();
+            $admin = Admin::find($adminId->id);
+        }
+
+        return inertia('Mahasiswa/Profile', [
+            'auth' => [
+                'mhs' => $mhs,
+                'dosen' => $dosen,
+                'admin' => $admin,
+            ]
+        ]);
+    }
 
     public function Logout()
     {

@@ -132,12 +132,13 @@ class AdminController extends Controller
     {
         $admin = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : null;
         $dosen = Auth::guard('dosen')->check() ? Auth::guard('dosen')->user() : null;
-        $kelas = Kelas::pluck('id', 'name');
+        $kelas = Kelas::with('mahasiswas')->get();
 
         return inertia('Admin/Users/Mahasiswa/CreateMahasiswa', [
             'admin' => $admin,
             'dosen' => $dosen,
-            'kelas' => $kelas
+            'kelas' => $kelas,
+
         ]);
     }
 
@@ -219,7 +220,7 @@ class AdminController extends Controller
         $admin = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : null;
         $dosen = Auth::guard('dosen')->check() ? Auth::guard('dosen')->user() : null;
         $mahasiswa = Mahasiswa::with('kelas')->findOrFail($mahasiswa_id);
-        $kelas = Kelas::pluck('id', 'name');
+        $kelas = Kelas::with('mahasiswas')->get();
 
         $nameparts = explode(' ', $mahasiswa->nama_lengkap, 2);
 

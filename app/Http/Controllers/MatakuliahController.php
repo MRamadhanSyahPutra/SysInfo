@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use PDO;
 use App\Models\Dosen;
 use App\Models\Kelas;
-use App\Models\Mahasiswa;
 use App\Models\Prodi;
+use App\Models\Mahasiswa;
 use App\Models\Matakuliah;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use PDO;
 
 class MatakuliahController extends Controller
 {
@@ -74,6 +76,7 @@ class MatakuliahController extends Controller
             $request->validate([
                 'kode' => ['required', 'string', 'size:6', Rule::unique('matakuliahs')],
                 'name' => ['required', 'string'],
+                'foto_sampul' => ['file', 'image', 'max:2048'],
                 'jumlah_sks' => ['required', 'integer', 'digits:1'],
                 'prodi_id' => ['required', 'exists:prodis,id'],
                 'dosen_id' => ['required', 'exists:dosens,id']
@@ -84,6 +87,8 @@ class MatakuliahController extends Controller
                 'kode.unique' => 'Kode Matkul sudah terdaftar!',
                 'name.required' => 'Nama Matakuliah wajib di isi!',
                 'name.string' => 'Nama Matakuliah harus berupa huruf!',
+                'foto_sampul.image' => 'Foto sampul harus berupa gambar!',
+                'foto_sampul.max' => 'Foto sampul maksimal 2MB!',
                 'jumlah_sks.required' => 'Jumlah SKS wajib di isi!',
                 'jumlah_sks.integer' => 'Jumlah SKS harus berupa angka!',
                 'jumlah_sks.digits' => 'Jumlah SkS harus 1 digit',
@@ -92,10 +97,17 @@ class MatakuliahController extends Controller
                 'dosen_id.required' => 'Wali Kelas wajib di isi!',
                 'dosen_id.exists' => 'Wali Kelas tidak tersedia!'
             ]);
+            $namaFile = null;
+            if ($request->hasFile('foto_sampul')) {
+                $extFile = $request->foto_sampul->getClientOriginalExtension();
+                $namaFile = Str::slug($request->name) . '-' . time() . '.' . $extFile;
 
+                $request->file('foto_sampul')->storeAs('images/matkul', $namaFile, 'public');
+            }
             Matakuliah::create([
                 'kode' => $request['kode'],
                 'name' => $request['name'],
+                'foto_sampul' => $namaFile,
                 'jumlah_sks' => $request['jumlah_sks'],
                 'prodi_id' => $request['prodi_id'],
                 'dosen_id' => $request['dosen_id']
@@ -129,6 +141,7 @@ class MatakuliahController extends Controller
     public function UpdateMatakuliah(Request $request, $matakuliah_id)
     {
         try {
+            // dd($request);
             $matakuliah = Matakuliah::find($matakuliah_id);
             if (!$matakuliah) {
                 return redirect()->back()->with('message', 'Data tidak terisi!');
@@ -137,6 +150,7 @@ class MatakuliahController extends Controller
             $request->validate([
                 'kode' => ['required', 'string', 'size:6', Rule::unique('matakuliahs')->ignore($matakuliah_id)],
                 'name' => ['required', 'string'],
+                'foto_sampul' => ['file', 'image', 'max:2048'],
                 'jumlah_sks' => ['required', 'integer', 'digits:1'],
                 'prodi_id' => ['required', 'exists:prodis,id'],
                 'dosen_id' => ['required', 'exists:dosens,id']
@@ -147,6 +161,8 @@ class MatakuliahController extends Controller
                 'kode.unique' => 'Kode Matkul sudah terdaftar!',
                 'name.required' => 'Nama Matakuliah wajib di isi!',
                 'name.string' => 'Nama Matakuliah harus berupa huruf!',
+                'foto_sampul.image' => 'Foto sampul harus berupa gambar!',
+                'foto_sampul.max' => 'Foto sampul maksimal 2MB!',
                 'jumlah_sks.required' => 'Jumlah SKS wajib di isi!',
                 'jumlah_sks.integer' => 'Jumlah SKS harus berupa angka!',
                 'jumlah_sks.digits' => 'Jumlah SkS harus 1 digit',
@@ -164,6 +180,14 @@ class MatakuliahController extends Controller
                 'dosen_id' => $request['dosen_id']
             ];
 
+            if ($request->hasFile('foto_sampul')) {
+                $extfile = $request->foto_sampul->getClientOriginalExtension();
+                $namaFile = Str::slug($request->name) . time() . '.' . $extfile;
+
+                $request->file('foto_sampul')->storeAs('images/matkul', $namaFile, 'public');
+
+                $updateData['foto_sampul'] = $namaFile;
+            }
             $matakuliah->update($updateData);
             return redirect()->route('matakuliah')->with('message', 'Matakuliah telah di update');
 
@@ -332,7 +356,7 @@ class MatakuliahController extends Controller
             ]);
 
             $mahasiswa->matakuliahs()->sync($validateData['matakuliah_id'] ?? []);
-            return redirect()->route('show.mahasiswa', $mahasiswa_id)->with('message', 'Matakuliah sudah di tambahkan');
+            return redirect()->route('show.mahasiswa', $mahasiswa_id)->with('message', 'Matakuliah telah di perbaharui');
 
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();

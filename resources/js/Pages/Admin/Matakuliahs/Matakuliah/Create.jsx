@@ -16,6 +16,7 @@ const Create = () => {
     const { data, setData, processing, post, errors } = useForm({
         kode: "",
         name: "",
+        foto_sampul: null,
         jumlah_sks: "",
         prodi_id: "",
         dosen_id: "",
@@ -23,8 +24,11 @@ const Create = () => {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("post.matakuliah"));
+        post(route("post.matakuliah"), {
+            forceFormData: true,
+        });
     };
+    console.log("File to upload:", data.foto_sampul);
 
     return (
         <>
@@ -71,6 +75,38 @@ const Create = () => {
                                 {errors.name && (
                                     <p className="text-red-500 text-sm">
                                         {errors.name}
+                                    </p>
+                                )}
+                            </div>
+                            <div className="relative z-0 w-full mb-5 group">
+                                <label
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    htmlFor="foto_sampul"
+                                >
+                                    Foto Sampul
+                                </label>
+                                <input
+                                    className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                    aria-describedby="foto_sampul"
+                                    id="foto_sampul"
+                                    type="file"
+                                    name={"foto_sampul"}
+                                    onChange={(e) => {
+                                        setData(
+                                            "foto_sampul",
+                                            e.target.files[0]
+                                        );
+                                    }}
+                                />
+                                <div
+                                    className="mt-1 text-sm text-gray-500 dark:text-gray-300"
+                                    id="user_avatar_help"
+                                >
+                                    Unggah foto sampul (maksimal ukuran 2MB)
+                                </div>
+                                {errors.foto_sampul && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.foto_sampul}
                                     </p>
                                 )}
                             </div>

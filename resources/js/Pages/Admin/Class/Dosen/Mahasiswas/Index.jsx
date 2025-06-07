@@ -71,7 +71,10 @@ const IndexMahasiswas = () => {
                                         <li key={index}>{kls.nama_lengkap}</li>
                                     ))
                                 ) : (
-                                    <li>{kelas.mahasiswas.nama_lengkap}</li>
+                                    <li className="list-none text-gray-500 italic">
+                                        Belum ada mahasiswa yang terdaftar di
+                                        kelas ini.
+                                    </li>
                                 )}
                             </ul>
                         </div>

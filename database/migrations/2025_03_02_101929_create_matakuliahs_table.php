@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('kode', 6)->unique();
             $table->string('name');
+            $table->string('foto_sampul', 255)->nullable();
             $table->unsignedSmallInteger('jumlah_sks');
             $table->unsignedBigInteger('prodi_id');
             $table->unsignedBigInteger('dosen_id');

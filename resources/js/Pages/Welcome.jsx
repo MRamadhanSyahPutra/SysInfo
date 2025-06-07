@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 import Navbar from "../Layout/Navbar";
 import Footer from "../Layout/Footer";
 import { useEffect, useRef } from "react";
@@ -8,10 +7,57 @@ import WaveUp from "../../css/Animation/wave/WaveUp.jsx";
 import Meteors from "../components/ui/meteors";
 import SparklesText from "../components/ui/sparkles-text";
 import { Head, usePage } from "@inertiajs/react";
+import BoxReveal from "../components/ui/box-reveal";
+import CardGrid from "@/Layout/CardGrid";
+import CardTestimoni from "@/Layout/CardTestimoni";
 
 const Welcome = () => {
     const typedRef = useRef(null);
     const { auth } = usePage().props;
+
+    const testimonials = [
+        {
+            name: "Ira Handayani",
+            img: "/images/dummy/nerd.png",
+            email: "ira@gmail.com",
+            role: "Dosen Pembimbing",
+            quote: "SysInfo memudahkan saya melihat daftar mahasiswa dan informasi mata kuliah yang saya ampu.",
+        },
+        {
+            name: "Mutia Lailasari",
+            img: "/images/dummy/geek.png",
+            email: "mutia@gmail.com",
+            role: "Mahasiswa Teknologi Rekayasa Robotika",
+            quote: "Saya bisa langsung mengecek data dosen dan mata kuliah yang tersedia lewat SysInfo.",
+        },
+        {
+            name: "Bapak Darman",
+            img: "/images/profile-picture-5.jpg",
+            role: "Admin Fakultas",
+            quote: "Proses input dan pembaruan data dosen maupun mahasiswa jadi jauh lebih cepat berkat SysInfo.",
+        },
+        {
+            name: "Edward Maryadi",
+            img: "/images/dummy/reading.png",
+            email: "edward@gmail.com",
+            role: "Mahasiswa Akuntansi Manajerial",
+            quote: "Tampilan antarmukanya bersih dan mudah digunakan. Saya langsung paham saat pertama mencoba.",
+        },
+        {
+            name: "Julia Purnawati",
+            img: "/images/dummy/study.png",
+            email: "julia@gmail.com",
+            role: "Dosen Pembimbing",
+            quote: "Fitur pencarian data mahasiswa dan mata kuliah sangat membantu dalam kegiatan akademik saya.",
+        },
+        {
+            name: "Luis Marpaung",
+            img: "/images/dummy/man.png",
+            email: "luis@gmail.com",
+            role: "Mahasiswa Baru",
+            quote: "Sebagai mahasiswa baru, saya merasa terbantu karena semua data penting tersedia di satu tempat.",
+        },
+    ];
 
     useEffect(() => {
         const option = {
@@ -69,11 +115,112 @@ const Welcome = () => {
                 </div>
                 <div className="-mt-6 sm:-mt-14 md:-mt-16 lg:-mt-[80px] xl:-mt-[100px] w-full">
                     <WaveUp />
-                    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden bg-meteor -mt-1 md:shadow-xl">
-                        <Meteors number={30} />
-                        <div className="mx-10 text-white">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Ipsa, eveniet.
+                    <div className="relative flex h-[2200px] xl:h-[1750px] w-full flex-col overflow-hidden bg-meteor -mt-1 md:shadow-xl">
+                        {/* <Meteors number={30} /> */}
+                        <div className="mx-8 mt-20 text-welcome ">
+                            <div className="mb-7">
+                                <BoxReveal>
+                                    <h1 className="text-2xl font-semibold">
+                                        Top features
+                                    </h1>
+                                </BoxReveal>
+                            </div>
+                            <CardGrid />
+                            <div className="mt-20 mb-7">
+                                <BoxReveal>
+                                    <h1 className="text-2xl font-semibold ">
+                                        Testimonial
+                                    </h1>
+                                </BoxReveal>
+                            </div>
+                            <CardTestimoni reverse>
+                                {testimonials.map((test, index) => (
+                                    <a
+                                        href="#"
+                                        key={index}
+                                        className="block max-w-sm p-6 bg-card border border-green-800 rounded-xl shadow-sm bg-card-hover dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+                                    >
+                                        <div className="flex mb-3">
+                                            <img
+                                                className="rounded-full w-10 h-10"
+                                                src="/images/dummy/man.png"
+                                                alt="image description"
+                                            />
+                                            <div className="ml-5">
+                                                <p className="text-black text-[17px]">
+                                                    {test.name}
+                                                </p>
+                                                <p className="text-black text-[17px]">
+                                                    {test.email}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="">
+                                            <p className="text-[14px]">
+                                                {test.quote}
+                                            </p>
+                                        </div>
+                                    </a>
+                                ))}
+                            </CardTestimoni>
+                            <CardTestimoni>
+                                {testimonials.map((test, index) => (
+                                    <a
+                                        href="#"
+                                        key={index}
+                                        className="block max-w-sm p-6 bg-card border border-green-800 rounded-xl shadow-sm bg-card-hover dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+                                    >
+                                        <div className="flex mb-3">
+                                            <img
+                                                className="rounded-full w-10 h-10"
+                                                src={`${test.img}`}
+                                                alt="image description"
+                                            />
+                                            <div className="ml-5">
+                                                <p className="text-black text-[17px]">
+                                                    {test.name}
+                                                </p>
+                                                <p className="text-black text-[17px]">
+                                                    {test.email}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="">
+                                            <p className="text-[14px]">
+                                                {test.quote}
+                                            </p>
+                                        </div>
+                                    </a>
+                                ))}
+                            </CardTestimoni>
+                            <div className="mt-20 mb-10">
+                                <BoxReveal>
+                                    <h1 className="text-2xl font-semibold ">
+                                        Learning activities
+                                    </h1>
+                                </BoxReveal>
+                            </div>
+
+                            <div className="grid grid-cols-4 grid-rows-4 gap-4">
+                                <div className="col-span-4 row-span-4 xl:col-span-2 xl:row-span-2">
+                                    <div className="relative h-64 w-full mask-gradient-t-first">
+                                        <img
+                                            src="/images/learning/learning-1.jpg"
+                                            alt="learning"
+                                            className="object-cover w-full h-full"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-span-4 row-span-4 xl:col-span-2 xl:row-span-2 xl:col-start-3 xl:row-start-3">
+                                    <div className="relative h-64 w-full mask-gradient-t-second">
+                                        <img
+                                            src="/images/learning/learning-2.jpg"
+                                            alt="learning"
+                                            className="object-cover w-full h-full"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

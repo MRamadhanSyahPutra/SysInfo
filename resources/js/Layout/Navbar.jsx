@@ -242,7 +242,10 @@ const Navbar = ({ activePage, auth }) => {
                                     src={`${
                                         auth.mhs?.jenis_kelamin === "pria"
                                             ? "/images/boy.png"
-                                            : "/images/woman.png"
+                                            : auth.mhs?.jenis_kelamin ===
+                                              "wanita"
+                                            ? "/images/woman.png"
+                                            : "/images/profile-picture-5.jpg"
                                     }`}
                                     alt="user photo"
                                 />
@@ -271,14 +274,20 @@ const Navbar = ({ activePage, auth }) => {
                                     aria-labelledby="user-menu-button"
                                 >
                                     <li>
-                                        <NavLinkP href="#">Dashboard</NavLinkP>
+                                        <NavLinkP
+                                            href={route("mahasiswa.dashboard")}
+                                        >
+                                            Dashboard
+                                        </NavLinkP>
                                     </li>
                                     <li>
-                                        <NavLinkP href="#">Settings</NavLinkP>
+                                        <NavLinkP
+                                            href={route("mahasiswa.profile")}
+                                        >
+                                            Profile
+                                        </NavLinkP>
                                     </li>
-                                    <li>
-                                        <NavLinkP href="#">Earnings</NavLinkP>
-                                    </li>
+
                                     <li>
                                         <NavLinkP href="#" onClick={Logout}>
                                             Sign out
@@ -396,10 +405,10 @@ const Navbar = ({ activePage, auth }) => {
                     <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
                             <NavLink
-                                href={route("home")}
-                                active={activePage === "home"}
+                                href={route("mahasiswa.dashboard")}
+                                active={activePage === "dashboard"}
                             >
-                                Home
+                                Dashboard
                             </NavLink>
                         </li>
                         <li>
@@ -411,7 +420,16 @@ const Navbar = ({ activePage, auth }) => {
                             </NavLink>
                         </li>
                         {auth?.mhs || auth?.dosen || auth?.admin ? (
-                            <></>
+                            <>
+                                <li>
+                                    <NavLink
+                                        href={route("mycourses")}
+                                        active={activePage === "mycourses"}
+                                    >
+                                        My courses
+                                    </NavLink>
+                                </li>
+                            </>
                         ) : (
                             <>
                                 <li>

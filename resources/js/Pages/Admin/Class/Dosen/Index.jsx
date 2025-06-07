@@ -65,13 +65,21 @@ const IndexDosen = () => {
                                 Kelas yang dibimbing :
                             </h2>
                             <ul className="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
-                                {kelas.length >= 1 ? (
+                                {kelas.length === 0 ? (
+                                    <p className="text-slate-500">
+                                        Anda belum membimbing kelas mana pun
+                                        saat ini.
+                                    </p>
+                                ) : kelas.length >= 1 ? (
                                     kelas.map((kls, index) => (
                                         <li key={index}>
                                             <Link
                                                 href={route(
                                                     "index.classmahasiswas",
-                                                    [user.id, kls.id]
+                                                    {
+                                                        dosen: user.id,
+                                                        class: kls.id,
+                                                    }
                                                 )}
                                             >
                                                 {kls.name}
@@ -80,10 +88,10 @@ const IndexDosen = () => {
                                     ))
                                 ) : (
                                     <Link
-                                        href={route("index.classmahasiswas", [
-                                            user.id,
-                                            kelas.id,
-                                        ])}
+                                        href={route("index.classmahasiswas", {
+                                            dosen: user.id,
+                                            class: kelas.id,
+                                        })}
                                     >
                                         {kelas.name}
                                     </Link>

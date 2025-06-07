@@ -49,7 +49,15 @@ const Index = () => {
                                         <li key={index}>{matkul.name}</li>
                                     ))
                                 ) : (
-                                    <li>{matakuliahs.name}</li>
+                                    <li
+                                        className={`${
+                                            matakuliahs.length === 0
+                                                ? "hidden"
+                                                : ""
+                                        }`}
+                                    >
+                                        {matakuliahs.name}
+                                    </li>
                                 )}
                                 {matakuliahs.length == 0 && (
                                     <p className="text-blue-500">

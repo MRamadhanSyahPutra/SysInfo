@@ -21,9 +21,11 @@ Route::prefix('/')->group(function () {
 });
 
 // Home
-Route::prefix('home')->middleware('auth.mhs')->group(function () {
+Route::prefix('dashboard')->middleware('auth.mhs')->group(function () {
     Route::controller(MahasiswaController::class)->group(function () {
-        Route::get('/', 'Home')->name('home');
+        Route::get('/', 'Dashboard')->name('mahasiswa.dashboard');
+        Route::get('/my-courses', 'Mycourses')->name('mycourses');
+        Route::get('profile', 'Profile')->name('mahasiswa.profile');
         Route::get('logout', 'Logout')->name('logout.mhs');
     });
 });

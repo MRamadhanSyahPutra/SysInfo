@@ -258,13 +258,17 @@ const EditMahasiswa = () => {
                                             setData("kelas_id", e.target.value)
                                         }
                                     >
-                                        {Object.entries(kelas).map(
-                                            ([name, id]) => (
-                                                <option key={id} value={id}>
-                                                    {name}
-                                                </option>
-                                            )
-                                        )}
+                                        {kelas.map((kls) => (
+                                            <option key={kls.id} value={kls.id}>
+                                                {kls.name}{" "}
+                                                {kls.mahasiswas.length === 0
+                                                    ? "(0"
+                                                    : "(" +
+                                                      kls.mahasiswas.length}
+                                                /{kls.data_tampung}
+                                                {")"}
+                                            </option>
+                                        ))}
                                     </Select>
                                     <p className={"text-[10px]"}>
                                         *Jika kelas penuh, kamu tidak bisa

@@ -19,6 +19,6 @@ class guestMhsAuth
         if (!Auth::guard('mahasiswa')->check()) {
             return $next($request);
         }
-        return redirect()->route('home')->with(['message' => 'Akses ke halaman ini tidak tersedia.']);
+        return redirect()->route('mahasiswa.dashboard')->with(['message' => 'Akses ke halaman ini tidak tersedia.']);
     }
 }

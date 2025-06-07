@@ -71,6 +71,9 @@ const Index = () => {
                                     Nama Matakuliah
                                 </th>
                                 <th scope="col" className="px-6 py-3">
+                                    Foto Sampul
+                                </th>
+                                <th scope="col" className="px-6 py-3">
                                     SKS
                                 </th>
                                 <th scope="col" className="px-6 py-3">
@@ -101,6 +104,17 @@ const Index = () => {
                                     {matakuliah.kode}
                                 </th>
                                 <td className="px-6 py-4">{matakuliah.name}</td>
+                                <td className="px-6 py-4">
+                                    {matakuliah.foto_sampul == null ? (
+                                        "Gambar belum diunggah"
+                                    ) : (
+                                        <img
+                                            className="h-auto max-w-20"
+                                            src={`/storage/images/matkul/${matakuliah.foto_sampul}`}
+                                            alt="Foto-sampul"
+                                        />
+                                    )}
+                                </td>
                                 <td className="px-6 py-4">
                                     {matakuliah.jumlah_sks}
                                 </td>
