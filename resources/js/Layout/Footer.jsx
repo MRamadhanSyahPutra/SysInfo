@@ -3,7 +3,7 @@ const Footer = () => {
         <footer className="bg-transparent rounded-lg shadow-lg m-4 dark:bg-gray-800 fixed bottom-0 z-40 w-10/12 sm:w-8/12 md:w-7/12 left-0 right-0 mx-auto">
             <div className="w-full mx-auto max-w-screen-xl p-4 flex justify-between items-center">
                 <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-                    © 2024{" "}
+                    © 2025{" "}
                     <a
                         href="https://www.linkedin.com/in/muhammad-ramadhan-syah-putra/"
                         className="hover:underline"
